@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Retention Intelligence</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div>
+            <p class="small-title">CUSTOMER ANALYTICS</p>
+
+            <h1>Customer Retention Intelligence</h1>
+
+            <p class="subtitle">
+                Predict customer risk and identify suitable
+                retention actions.
+            </p>
+        </div>
+
+        <div class="badge">
+            ML POWERED
+        </div>
+
+    </header>
+
+
+    <section class="card">
+
+        <h2>Customer Information</h2>
+
+        <p class="description">
+            Enter the customer's current account and service details.
+        </p>
+
+
+        <form method="POST">
+
+
+            <div class="form-grid">
+
+
+                <div class="input-group">
+
+                    <label>Tenure (months)</label>
+
+                    <input
+                        type="number"
+                        name="tenure"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Monthly Charges</label>
+
+                    <input
+                        type="number"
+                        name="monthly_charges"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Total Charges</label>
+
+                    <input
+                        type="number"
+                        name="total_charges"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Contract</label>
+
+                    <select name="contract">
+
+                        <option value="Month-to-month">
+                            Month-to-month
+                        </option>
+
+                        <option value="One year">
+                            One year
+                        </option>
+
+                        <option value="Two year">
+                            Two year
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Internet Service</label>
+
+                    <select name="internet_service">
+
+                        <option value="DSL">
+                            DSL
+                        </option>
+
+                        <option value="Fiber optic">
+                            Fiber optic
+                        </option>
+
+                        <option value="No">
+                            No internet service
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Technical Support</label>
+
+                    <select name="tech_support">
+
+                        <option value="No">
+                            No
+                        </option>
+
+                        <option value="Yes">
+                            Yes
+                        </option>
+
+                        <option value="No internet service">
+                            No internet service
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group full">
+
+                    <label>Payment Method</label>
+
+                    <select name="payment_method">
+
+                        <option value="Electronic check">
+                            Electronic check
+                        </option>
+
+                        <option value="Mailed check">
+                            Mailed check
+                        </option>
+
+                        <option value="Bank transfer (automatic)">
+                            Bank transfer (automatic)
+                        </option>
+
+                        <option value="Credit card (automatic)">
+                            Credit card (automatic)
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <button type="submit">
+                Analyze Customer
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+    {% if result %}
+
+    <section class="result-section">
+
+
+        <div class="risk-card">
+
+            <p class="result-label">
+                CUSTOMER RETENTION RISK
+            </p>
+
+            <h2 class="{{ result.risk|lower }}">
+                {{ result.risk }}
+            </h2>
+
+            <p>
+                Risk indicator: {{ result.risk_percentage }}%
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>Key Factors</h2>
+
+            {% if result.reasons %}
+
+                <ul>
+
+                {% for reason in result.reasons %}
+
+                    <li>{{ reason }}</li>
+
+                {% endfor %}
+
+                </ul>
+
+            {% else %}
+
+                <p>
+                    No major risk factors identified.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="recommendation-card">
+
+            <div>
+
+                <p class="result-label">
+                    RECOMMENDATION ENGINE
+                </p>
+
+                <h2>
+                    Suggested Retention Actions
+                </h2>
+
+            </div>
+
+
+            <div class="recommendations">
+
+                {% for recommendation in result.recommendations %}
+
+                <div class="recommendation">
+
+                    <span>✓</span>
+
+                    <p>
+                        {{ recommendation }}
+                    </p>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+    {% endif %}
+
+
+    <footer>
+
+        <p>
+            Machine Learning Decision Support System
+        </p>
+
+    </footer>
+
+
+</div>
+
+</body>
+
+</html>
